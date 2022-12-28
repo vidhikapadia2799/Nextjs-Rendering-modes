@@ -24,7 +24,7 @@ const Details = () => {
   useEffect(() => {
     async function getPokemon() {
       const res = await fetch(
-        `https://jherr-pokemon.s3.us-west-1.amazonaws.com/pokemon/${id}.json`
+        `https://pokemon-dataset.vercel.app/pokemon/${id}.json`
       );
       setPokemon(await res.json());
     }

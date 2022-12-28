@@ -15,7 +15,7 @@ export default function Home() {
   useEffect(() => {
     async function getPokemon() {
       const res = await fetch(
-        "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
+        "https://pokemon-dataset.vercel.app/index.json"
       );
       setPokemon(await res.json());
     }
@@ -32,7 +32,7 @@ export default function Home() {
           <div className={styles.card} key={item.id}>
             <Link href={`/pokemon/${item.id}`}>
               <img
-                src={`https://jherr-pokemon.s3.us-west-1.amazonaws.com/${item.image}`}
+                src={`https://pokemon-dataset.vercel.app/${item.image}`}
                 alt={item.name}
               />
               <h3>{item.name}</h3>
