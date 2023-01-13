@@ -1,7 +1,7 @@
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "../../styles/Details.module.css";
 
 interface IPokemonId {
@@ -13,28 +13,22 @@ interface IPokemonId {
   }[];
   image: string;
 }
+interface Props{
+  pokemon:IPokemonId
+}
 
-const Details = () => {
-  const {
-    query: { id },
-  } = useRouter();
-
-  const [pokemon, setPokemon] = useState<IPokemonId>();
-
-  useEffect(() => {
-    async function getPokemon() {
-      const res = await fetch(
-        `https://jherr-pokemon.s3.us-west-1.amazonaws.com/pokemon/${id}.json`
-      );
-      setPokemon(await res.json());
+export const getServerSideProps:GetServerSideProps = async({params}) => {
+  const res = await fetch(
+    `https://jherr-pokemon.s3.us-west-1.amazonaws.com/pokemon/${params?.id}.json`
+  );
+  return{
+    props:{
+      pokemon:await res.json()
     }
-    if (id) {
-      getPokemon();
-    }
-  }, [id]);
-  if (!pokemon) {
-    return null;
   }
+}
+
+const Details:React.FC<Props> = ({pokemon}) => {
   return (
     <div>
       <Head>

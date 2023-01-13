@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import React from "react";
 import styles from "../styles/Home.module.css";
 
 interface IPokemon {
@@ -8,20 +8,11 @@ interface IPokemon {
   name: string;
   image: string;
 }
+interface Props{
+  pokemon :IPokemon[]
+}
 
-export default function Home() {
-  const [pokemon, setPokemon] = useState<IPokemon[]>([]);
-
-  useEffect(() => {
-    async function getPokemon() {
-      const res = await fetch(
-        "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
-      );
-      setPokemon(await res.json());
-    }
-    getPokemon();
-  }, []);
-
+const Home:React.FC<Props> = ({pokemon}) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -42,4 +33,16 @@ export default function Home() {
       </div>
     </div>
   );
+}
+export default Home
+
+export async function getServerSideProps() {
+  const res = await fetch(
+    "https://jherr-pokemon.s3.us-west-1.amazonaws.com/index.json"
+  );
+  return{
+    props:{
+      pokemon: await res.json()
+    }
+  }
 }
